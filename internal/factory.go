@@ -26,3 +26,9 @@ func GetExporter(format string) (Exporter, error) {
 		return nil, fmt.Errorf("unsupported exporter format: %s", format)
 	}
 }
+
+var Test string
+
+func init() {
+	Test = "factory初始化测试！"
+}
