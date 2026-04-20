@@ -1,0 +1,35 @@
+# 二进制文件
+bin/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+# 项目生成的转换产物（防止你不小心把转换出来的几百兆电子书传上去了）
+dist/
+output/
+*.epub
+*.pdf
+*.mobi
+
+# Go 相关
+go.sum
+# 如果你使用 vendor 模式
+# vendor/
+
+# 调试与覆盖率
+*.test
+*.out
+coverage.txt
+
+# 编辑器相关
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# 临时测试用的样书目录（建议把测试用的 txt/epub 放在这里，但不提交）
+samples/
+temp/
+*.txt
