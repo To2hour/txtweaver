@@ -11,6 +11,8 @@ func GetImporter(format string) (Importer, error) {
 	switch strings.ToLower(strings.TrimSpace(format)) {
 	case "txt":
 		return &txtImporter{}, nil
+	case "md", "markdown":
+		return &mdImporter{}, nil
 	default:
 		return nil, fmt.Errorf("unsupported importer format: %s", format)
 	}
@@ -25,10 +27,4 @@ func GetExporter(format string) (Exporter, error) {
 	default:
 		return nil, fmt.Errorf("unsupported exporter format: %s", format)
 	}
-}
-
-var Test string
-
-func init() {
-	Test = "factory初始化测试！"
 }

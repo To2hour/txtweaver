@@ -5,6 +5,7 @@ go 1.26
 require (
 	github.com/bmaupin/go-epub v1.1.0
 	github.com/spf13/cobra v1.10.2
+	github.com/yuin/goldmark v1.8.2
 )
 
 require (

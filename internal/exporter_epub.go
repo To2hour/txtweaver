@@ -2,7 +2,6 @@ package internal
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/bmaupin/go-epub"
 )
@@ -14,14 +13,8 @@ func (ex *epubExporter) Export(b *Book, outputPath string) error {
 	e.SetAuthor(b.Author)
 
 	for _, ch := range b.Chapters {
-		paras := strings.Split(ch.Content, "\n")
-		htmlContent := "<h1>" + ch.Title + "</h1>"
-		for _, p := range paras {
-			p = strings.TrimSpace(p)
-			if p != "" {
-				htmlContent += "<p>" + p + "</p>"
-			}
-		}
+		// Content 约定为“章节正文的 HTML 片段”（由 Importer 负责产出），Exporter 只负责包装章节标题。
+		htmlContent := "<h1>" + ch.Title + "</h1>\n" + ch.Content
 
 		_, err := e.AddSection(htmlContent, ch.Title, "", "")
 		if err != nil {

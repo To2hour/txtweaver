@@ -2,8 +2,8 @@ package internal
 
 import (
 	"bufio"
-	_ "embed"
 	"fmt"
+	"html"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -13,9 +13,7 @@ import (
 type txtImporter struct{}
 
 // 章节标题正则（覆盖常见“第X章/节/卷”、序章/楔子/后记等）。
-//
-//go:embed parser/regex.txt
-var regexPattern string
+const txtChapterTitlePattern = `^(?:(?:第[\p{Han}0-9零一二三四五六七八九十百千万两]+[章节卷部篇回])|(?:序章|楔子|引子|前言|后记|尾声|番外)).*$`
 
 func (t *txtImporter) Import(path string) (book *Book, err error) {
 	defer func() {
@@ -39,7 +37,7 @@ func (t *txtImporter) Import(path string) (book *Book, err error) {
 }
 func parseTxtIntoBook(book *Book, f *os.File) {
 	scanner := bufio.NewScanner(f)
-	re := regexp.MustCompile(regexPattern)
+	re := regexp.MustCompile(txtChapterTitlePattern)
 
 	var currentChapter *Chapter
 
@@ -57,7 +55,8 @@ func parseTxtIntoBook(book *Book, f *os.File) {
 			currentChapter = &Chapter{Title: "前言"}
 			book.Chapters = append(book.Chapters, currentChapter)
 		}
-		currentChapter.Content += line + "\n\n"
+		// 统一存为 HTML 片段，避免导出时二次“猜格式”破坏渲染。
+		currentChapter.Content += "<p>" + html.EscapeString(line) + "</p>\n"
 	}
 }
 func initBookFromPath(path string) *Book {
