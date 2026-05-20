@@ -1,9 +1,11 @@
 package main_test
 
 import (
-	"testing"
+	"fmt"
 )
 
-func TestName(t *testing.T) {
-
+func ExampleName() {
+	fmt.Println(1)
+	fmt.Println(2)
+	// Output:1
 }
